@@ -9,7 +9,10 @@
 - [MDN](https://developer.mozilla.org)
 
 ## Github
+Completed setup of main page alongside VS code to commit changes. I have used Github previously but have never setup my own page and connected it to VS Code. With the step by step process laid out it ended up being easier than expected.
 
+## Startup Application
+Coming up with the initial topic was a little tricky especially thinking of the details. After coming up with the broad idea of voting based custom tier lists making the sketch and filling in other requirements became far easier even if it was a bit time consuming.
 
 
 ## AWS

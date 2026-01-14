@@ -7,11 +7,11 @@
 
 ### Brief Description
 
-The title of my startup project is Ranking with Friends. As expressed in the title this project will allow friends to collaborate together to rank their favorite self-created subjects. As shown in rough sketches down below this uses the tier list system (S, A, B, C, D, F) with an unranked category beneath them all. The collaboration comes in the form of creator and participant. The creator goes to a page to create a category and a dynamic list of items to rank within that category. After creation a server generated join code is made that the creator can tell other participants authenticating that the right people are in the group.
+The title of my startup project is Ranking with Friends. As expressed in the title this project will allow friends to collaborate together to rank their favorite self-created subjects. As shown in rough sketches down below this uses the tier list system (S, A, B, C, D) with an unranked category beneath them all. The collaboration comes in the form of creator and participant. The creator goes to a page to create a category and a dynamic list of items to rank within that category. After creation a server generated join code is made that the creator can tell other participants authenticating that the right people are in the group.
 
 ### Elevator Pitch
 
-Have you ever wondered how your opinions compare to your friends? Welcome to "Ranking with Friends" a new ranking system that allows friends to get together and rank anything from movies to basketball players. Using the template of tier lists allows for interesting rankings that can always be different.
+Have you ever wondered how your opinions compare to your friends? Welcome to "Ranking with Friends" a new ranking system that allows friends to get together and rank anything from movies to basketball players. Using the template of tier lists allows for interesting rankings that can always be different through the voting system.
 
 ### Design
 
@@ -35,7 +35,7 @@ Have you ever wondered how your opinions compare to your friends? Welcome to "Ra
     1. Submitting votes
     2. Allocating correct items to correct tiers based on the tally
     3. Showing results
-- **DB** - 
+- **DB** 
     1. Storing custom topics/ideas for tier list
     2. Storing saved completed tier lists
     3. Remembering Votes and tier placement
