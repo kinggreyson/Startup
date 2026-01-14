@@ -1,61 +1,49 @@
-# Your startup name here
+# Ranking with Friends
+## Greyson King
 
 [My Notes](notes.md)
 
-A brief description of the application here. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+## Startup Application Deliverable
 
-> [!NOTE]
-> This is a template for your startup application. You must modify this `README.md` file for each phase of your development. You only need to fill in the section for each deliverable when that deliverable is submitted in Canvas. Without completing the section for a deliverable, the TA will not know what to look for when grading your submission. Feel free to add additional information to each deliverable description, but make sure you at least have the list of rubric items and a description of what you did for each item.
+### Brief Description
 
-> [!NOTE]
-> If you are not familiar with Markdown then you should review the [documentation](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax) before continuing.
+The title of my startup project is Ranking with Friends. As expressed in the title this project will allow friends to collaborate together to rank their favorite self-created subjects. As shown in rough sketches down below this uses the tier list system (S, A, B, C, D, F) with an unranked category beneath them all. The collaboration comes in the form of creator and participant. The creator goes to a page to create a category and a dynamic list of items to rank within that category. After creation a server generated join code is made that the creator can tell other participants authenticating that the right people are in the group.
 
-## 🚀 Specification Deliverable
+### Elevator Pitch
 
-> [!NOTE]
-> Fill in this sections as the submission artifact for this deliverable. You can refer to this [example](https://github.com/webprogramming260/startup-example/blob/main/README.md) for inspiration.
-
-For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
-
-- [ ] Proper use of Markdown
-- [ ] A concise and compelling elevator pitch
-- [ ] Description of key features
-- [ ] Description of how you will use each technology
-- [ ] One or more rough sketches of your application. Images must be embedded in this file using Markdown image references.
-
-### Elevator pitch
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+Have you ever wondered how your opinions compare to your friends? Welcome to "Ranking with Friends" a new ranking system that allows friends to get together and rank anything from movies to basketball players. Using the template of tier lists allows for interesting rankings that can always be different.
 
 ### Design
 
-![Design image](placeholder.png)
+![alt text](image.png)
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+### Key Features
 
-```mermaid
-sequenceDiagram
-    actor You
-    actor Website
-    You->>Website: Replace this with your design
-```
-
-### Key features
-
-- Describe your key feature
-- Describe your key feature
-- Describe your key feature
+- Secure lobbies with server generated join codes
+- Custom Tier lists with different topics and items
+- Voting System for each item and the given tiers
+- Tier List results are stored
+- Ability to create individual username
 
 ### Technologies
+#### I am going to use the required techologies in these ways:
 
-I am going to use the required technologies in the following ways.
+- **HTML** - HTML is the framework for the application. Multiple HTML pages: Main menu, tier list creation, join page, tier list, and voting.
+- **CSS** - CSS is the styling of the application. Used for different colors and font sizes depending on what is needed as seen in the design sketch.
+- **React** - React will be used in the join code process/login. It will also be used in the voting system
+- **Service** - Endpoints:
+    1. Submitting votes
+    2. Allocating correct items to correct tiers based on the tally
+    3. Showing results
+- **DB** - 
+    1. Storing custom topics/ideas for tier list
+    2. Storing saved completed tier lists
+    3. Remembering Votes and tier placement
+- **Websocket** 
+    1. Showing user votes to everyone
+    2. Live chat sidebar
+    3. Display the number of users voting on the list
 
-- **HTML** - Description here
-- **CSS** - Description here
-- **React** - Description here
-- **Service** - Description here
-- **DB/Login** - Description here
-- **WebSocket** - Description here
 
 ## 🚀 AWS deliverable
 
