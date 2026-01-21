@@ -17,12 +17,13 @@ Coming up with the initial topic was a little tricky especially thinking of the 
 
 ## AWS
 
-My IP address is: 54.81.96.130
-Launching my AMI I initially put it on a private subnet. Even though it had a public IP address and the security group was right, I wasn't able to connect to it.
+My IP address is: 100.27.88.19
+My Domain Name is: https://rankingwithfriends.click
+Launching an actual website using AWS was completely foreign to me, and I've never really done anything like it through any coding project. The instructions were very helpful and gave me a good view of where to actually go and what to do. With how much content is on AWS it was intimidating at first. 
 
 ## Caddy
 
-No problems worked just like it said in the [instruction](https://github.com/webprogramming260/.github/blob/main/profile/webServers/https/https.md).
+I had no problems here and was surprised with how easy it was to get a secure website, really thankful for the monopoly breakup in 2014.  
 
 ## HTML
 
