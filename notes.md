@@ -27,9 +27,7 @@ I had no problems here and was surprised with how easy it was to get a secure we
 
 ## HTML
 
-This was easy. I was careful to use the correct structural elements such as header, footer, main, nav, and form. The links between the three views work great using the `a` element.
-
-The part I didn't like was the duplication of the header and footer code. This is messy, but it will get cleaned up when I get to React.
+HTML actually went very smoothly, I really like how organized this code looks after finishing with it. It kind of just makes sense. The toughest part was just brainstomring how I wanted the actual setup to look so the simon example really helped me out with that. After thinking of all that it was just working through the code until it looked how it should. It does feel a little strange having a lot of temporary components or components who don't work yet but this does feel like the foundation.
 
 ## CSS
 
