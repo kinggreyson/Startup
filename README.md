@@ -55,15 +55,15 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [ ] **HTML pages** - I did not complete this part of the deliverable.
-- [ ] **Proper HTML element usage** - I did not complete this part of the deliverable.
-- [ ] **Links** - I did not complete this part of the deliverable.
-- [ ] **Text** - I did not complete this part of the deliverable.
-- [ ] **3rd party API placeholder** - I did not complete this part of the deliverable.
-- [ ] **Images** - I did not complete this part of the deliverable.
-- [ ] **Login placeholder** - I did not complete this part of the deliverable.
-- [ ] **DB data placeholder** - I did not complete this part of the deliverable.
-- [ ] **WebSocket placeholder** - I did not complete this part of the deliverable.
+- [X] **HTML pages** - I have multiple HTML pages beginning with the home page (index), a page to create the tier list, a page to vote, a results page, and an about page. They all link to each other
+- [X] **Proper HTML element usage** - I used multiple interesting HTML elements, some as placeholder and other
+- [X] **Links** - Nav menu contains working links between each page, while buttons have been setup for future use to navigate pages.
+- [X] **Text** - Each page contains text describing what it does along with examples of how it will look in the future.
+- [X] **3rd party API placeholder** - Quoted fact in about section as 3rd party API placeholder
+- [X] **Images** - Placeholder tier list image in the results page
+- [X] **Login placeholder** - Multiple logins on home screen depending on what you want to access
+- [X] **DB data placeholder** - Saved tier lists access on result page
+- [X] **WebSocket placeholder** - Live voting placeholder on voting page along with live chat, and voting records.
 
 ## 🚀 CSS deliverable
 
