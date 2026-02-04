@@ -18,11 +18,15 @@
     box-sizing: border-box;
 }
 
+html {
+    height: 100%;
+}
 body {
     font-family: 'Poppins', sans-serif;
     line-height: 2;
     color: var(--text-light);
-    background: linear-gradient(135deg, var(--dark-bg) 0%,var(--card-bg) 100%);
+    background: linear-gradient(135deg, var(--dark-bg) 0%,var(--darker-bg) 100%);
+    background-attachment: fixed;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
@@ -80,7 +84,10 @@ nav a:hover { /*Highlight effect when moused over*/
 
 main {
     max-width: 1000px;
-    margin: 2rem auto;
+    width: 90%;
+    margin: 0 auto;
+    margin-top: 2rem; 
+    margin-bottom: 2rem;  
     padding: 2rem;
     background-color: var(--card-bg);
     border-radius: 15px;
@@ -90,7 +97,7 @@ main {
 }
 
 .content-block {
-    margin-bottom: 3rem;
+    margin-bottom: 2rem;
     padding: 2rem;
     background-color: rgba(30, 41, 59, 0.5);
     border-radius: 15px;
