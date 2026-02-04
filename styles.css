@@ -162,3 +162,21 @@ button:hover {
     background-color: #4f46e5;
     box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
 }
+
+footer {
+    background-color: var(--darker-bg);
+    color: var(--text-light);
+    text-align: center;
+    padding: 1.5rem;
+    margin-top: auto;
+    border-top: 2px solid var(--border-color);
+}
+
+footer a {
+    color: var(--secondary-color);
+    transition: color 0.3s ease;
+}
+
+footer a:hover {
+    color: var(--primary-color);
+}
