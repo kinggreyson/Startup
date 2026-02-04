@@ -187,3 +187,8 @@ footer a {
 footer a:hover {
     color: var(--primary-color);
 }
+
+#tier-list-creator {
+    border-left: 4px solid var(--primary-color);
+    padding-left: 1.5rem;
+}
