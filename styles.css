@@ -17,3 +17,12 @@
     padding: 0;
     box-sizing: border-box;
 }
+body {
+    font-family: 'Poppins', sans-serif;
+    line-height: 2;
+    color: var(--text-light);
+    background: linear-gradient(135deg, var(--dark-bg) 0%,var(--card-bg) 100%);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
