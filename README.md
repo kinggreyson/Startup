@@ -80,8 +80,8 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [X] **Bundled using Vite** - Installed and configured Vite. Updated package.json
-- [X] **Components** - Converted HTML components for each of the 5 pages
+- [X] **Bundled using Vite** - Installed and configured Vite. Updated package.json with dev, build, and preview scripts
+- [X] **Components** - Converted HTML components for each of the 5 pages, Converted all HTML content to JSX with correct additions.
 - [X] **Router** - Implemented React Router with BrowserRouter. Updaged NavLink components for navigation, and added a NotFound component for invalid routes.
 ## 🚀 React part 2: Reactivity deliverable
 
