@@ -1,9 +1,9 @@
 import React from 'react';
 
-export function Home() {
+export function Voting() {
   return (
     <main className="container-fluid bg-secondary text-center">
-      <div>home displayed here</div>
+      <div>voting displayed here</div>
     </main>
   );
 }
