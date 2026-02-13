@@ -69,21 +69,20 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- ['X'] **Visually appealing colors and layout. No overflowing elements.** - Maintains a consistent visually appealing style of color and layout.
-- ['X'] **Use of a CSS framework** - Used the Bootstrap CSS framework
-- ['X'] **All visual elements styled using CSS** - Yes each of the pages and aspects of the page were modified using CSS styling such as Header, navbar, body, background, buttons, etc.
-- ['X'] **Responsive to window resizing using flexbox and/or grid display** - Using flex modifiers the page is responsive to window resizising
-- ['X'] **Use of a imported font** - Imported Poppins font
-- ['X'] **Use of different types of selectors including element, class, ID, and pseudo selectors** -  Used element selectors (body, header, button), class selectors(content-block), ID selectors (#login-form), and pseudo selectors (:hover, :root)
+- [X] **Visually appealing colors and layout. No overflowing elements.** - Maintains a consistent visually appealing style of color and layout.
+- [X] **Use of a CSS framework** - Used the Bootstrap CSS framework
+- [X] **All visual elements styled using CSS** - Yes each of the pages and aspects of the page were modified using CSS styling such as Header, navbar, body, background, buttons, etc.
+- [X] **Responsive to window resizing using flexbox and/or grid display** - Using flex modifiers the page is responsive to window resizising
+- [X] **Use of a imported font** - Imported Poppins font
+- [X] **Use of different types of selectors including element, class, ID, and pseudo selectors** -  Used element selectors (body, header, button), class selectors(content-block), ID selectors (#login-form), and pseudo selectors (:hover, :root)
 
 ## 🚀 React part 1: Routing deliverable
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [ ] **Bundled using Vite** - I did not complete this part of the deliverable.
-- [ ] **Components** - I did not complete this part of the deliverable.
-- [ ] **Router** - I did not complete this part of the deliverable.
-
+- [X] **Bundled using Vite** - Installed and configured Vite. Updated package.json
+- [X] **Components** - Converted HTML components for each of the 5 pages
+- [X] **Router** - Implemented React Router with BrowserRouter. Updaged NavLink components for navigation, and added a NotFound component for invalid routes.
 ## 🚀 React part 2: Reactivity deliverable
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
