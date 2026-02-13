@@ -35,7 +35,7 @@ This took me a bit to understand how it worked but when I did it was easy to tak
 
 ## React Part 1: Routing
 
-Setting up Vite and React was pretty simple. I had a bit of trouble because of conflicting CSS. This isn't as straight forward as you would find with Svelte or Vue, but I made it work in the end. If there was a ton of CSS it would be a real problem. It sure was nice to have the code structured in a more usable way.
+Setting up vite ended up being really easy. Taking time reading through the information, and doing everything on the Simon part first really helped. The process ended up being very similar between the two, and made sense. It's nice to see the code looking much cleaner and less repetitive. It was a little tricky converting each individual HTML page before deleting it, and I did run into a few bugs along the way. 
 
 ## React Part 2: Reactivity
 
