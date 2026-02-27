@@ -1,53 +1,97 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 export function Results() {
+  const [completedList, setCompletedList] = useState(null);
+  const [savedLists, setSavedLists] = useState([]);
+  const username = localStorage.getItem('username') || 'Newplayer';
+
+  useEffect(() => {
+    // Loads completed list
+    const completed = localStorage.getItem('completedTierList');
+    if (completed) {
+      setCompletedList(JSON.parse(completed));
+    }
+
+    // Load saved tier lists (placeholder)
+    const saved = localStorage.getItem('savedTierLists');
+    if (saved) {
+      setSavedLists(JSON.parse(saved));
+    } else {
+      //ex saved listss
+      setSavedLists([
+        { title: 'Top Movies of All Time', date: '01/25/2026' },
+        { title: 'Best Video Games', date: '01/20/2026' },
+        { title: 'Favorite Foods', date: '01/15/2026' }
+      ]);
+    }
+  }, []);
+
+  function saveTierList() {
+    if (completedList) {
+      const newList = {
+        title: completedList.title,
+        date: completedList.completedDate
+      };
+      const updated = [newList, ...savedLists];
+      setSavedLists(updated);
+      localStorage.setItem('savedTierLists', JSON.stringify(updated));
+      alert('Tier list saved to database!');
+    }
+  }
+
+  if (!completedList) {
+    return (
+      <main>
+        <h3>User: {username}</h3>
+        <h2>No Results Yet</h2>
+        <p>Complete a voting session to see results!</p>
+        
+        <hr />
+        
+        <h2>Saved Tier Lists (Database)</h2>
+        <ul>
+          {savedLists.map((list, index) => (
+            <li key={index}>
+              <a href="#">{list.title} - {list.date}</a>
+            </li>
+          ))}
+        </ul>
+      </main>
+    );
+  }
+
   return (
     <main>
-      <h3>User: Newplayer</h3>
-      <h2>Final Results: Best NBA Players</h2>
+      <h3>User: {username}</h3>
+      <h2>Final Results: {completedList.title}</h2>
       
-      <p>Voting completed by 5 users</p>
-      
-      <hr />
-      
-      <h3>S Tier</h3>
-      <p>LeBron James</p>
-      <p>Michael Jordan</p>
+      <p>Voting completed by {completedList.votedBy} users</p>
       
       <hr />
       
-      <h3>A Tier</h3>
-      <p>Kobe Bryant</p>
-      <p>Shai Gilgeous-Alexander</p>
-      <p>Stephen Curry</p>
-      <p>Nikola Jokic</p>
-      
-      <hr />
-      
-      <h3>B Tier</h3>
-      <p>Kevin Durant</p>
-      
-      <hr />
-      
-      <h3>C Tier</h3>
-      <p>Dwyane Wade</p>
-      <p>Russell Westbrook</p>
-      
-      <hr />
-      
-      <h3>D Tier</h3>
-      <p>(Empty)</p>
-      
-      <hr />
+      {['S', 'A', 'B', 'C', 'D'].map(tierName => (
+        <div key={tierName}>
+          <h3>{tierName} Tier</h3>
+          {completedList.tiers[tierName].length > 0 ? (
+            completedList.tiers[tierName].map((item, index) => (
+              <p key={index}>{item}</p>
+            ))
+          ) : (
+            <p>(Empty)</p>
+          )}
+          <hr />
+        </div>
+      ))}
       
       <h2>Saved Tier Lists (Database)</h2>
       <ul>
-        <li><a href="#">Best NBA Players - 01/28/2026</a></li>
-        <li><a href="#">Top Movies of All Time - 01/25/2026</a></li>
-        <li><a href="#">Best Video Games - 01/20/2026</a></li>
-        <li><a href="#">Favorite Foods - 01/15/2026</a></li>
+        {savedLists.map((list, index) => (
+          <li key={index}>
+            <a href="#">{list.title} - {list.date}</a>
+          </li>
+        ))}
       </ul>
-      <button>Save This Tier List</button>
+      <button onClick={saveTierList}>Save This Tier List</button>
     </main>
   );
 }
