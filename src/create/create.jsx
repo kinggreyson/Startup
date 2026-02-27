@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export function Create() {
   const [title, setTitle] = useState('');
   const [items, setItems] = useState(['', '', '', '', '']);
   const [joinCode, setJoinCode] = useState('');
+  const navigate = useNavigate();
 
 
   function addItem() {
@@ -43,6 +45,28 @@ export function Create() {
       alert(`Joining session with code: ${joinCode} *Will implement with web socket*`);
     }
   }
+
+  function handleCreateTierList(event) {
+    event.preventDefault();
+    const tierList = { 
+      title, 
+      items: items.filter(item => item.trim() !== ''),
+      date: new Date().toLocaleDateString(),
+      joinCode: generateJoinCode() 
+    };
+    localStorage.setItem('currentTierList', JSON.stringify(tierList));
+    navigate('/voting');
+  }
+
+  function generateJoinCode() {
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    let code = '';
+    for (let i = 0; i < 4; i++) {
+      code += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return code;
+  }
+
   return (
     <main>
       <section id="tier-list-creator">
