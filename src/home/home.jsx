@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export function Home() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
   function handleLogin(event) {
     event.preventDefault();
     localStorage.setItem('username', username);
-    alert(`Welcome, ${username}!`);
+    navigate('/create');
   }
 
   return (
