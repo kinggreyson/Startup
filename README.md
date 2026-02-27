@@ -87,8 +87,8 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [ ] **All functionality implemented or mocked out** - I did not complete this part of the deliverable.
-- [ ] **Hooks** - I did not complete this part of the deliverable.
+- [X] **All functionality implemented or mocked out** - All functionality is implemented or mapped out. User can login and that username is saved to local storage, and is then taken to the create page where they can name and add/subtract items to/from the tier list, this again is saved once the list is created and the voting stage is implemented the join button is also mocked out along with saved lists. Once on the voting page items can have their tier selected live updates and the chat is also mocked out. In the results page the saved tier list is displayed and the database is also mocked. Finally their is an about page that has a 3rd party API mocked.
+- [X] **Hooks** - Hooks are used throughout the whole startup project mostly for managing inputs. (username, password, title, items, join code, etc.) use effect hook loads tier list from local storage in voting and results page 
 
 ## 🚀 Service deliverable
 
