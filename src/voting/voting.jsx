@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 
 export function Voting() {
   const [tierList, setTierList] = useState(null);
@@ -17,6 +19,7 @@ export function Voting() {
   ]);
   const [newMessage, setNewMessage] = useState('');
   const [showChat, setShowChat] = useState(true);
+  const navigate = useNavigate();
 
   // load tier list from create/local storage
   useEffect(() => {
@@ -27,6 +30,25 @@ export function Voting() {
       setUnranked(data.items);
     }
   }, []);
+  useEffect(() => {
+    if (tierList && unranked.length === 0 && 
+        (tiers.S.length > 0 || tiers.A.length > 0 || tiers.B.length > 0 || 
+         tiers.C.length > 0 || tiers.D.length > 0)) {
+      // Save final results
+      const completedTierList = {
+        ...tierList,
+        tiers: tiers,
+        completedDate: new Date().toLocaleDateString(),
+        votedBy: 5 // Mock number of voters
+      };
+      localStorage.setItem('completedTierList', JSON.stringify(completedTierList));
+      
+      // Navigate to results after a brief moment
+      setTimeout(() => {
+        navigate('/results');
+      }, 500);
+    }
+  }, [unranked, tiers, tierList, navigate]);
 
     //Show fake activity *PLACEHOLDER*
   useEffect(() => {
