@@ -39,26 +39,4 @@ Setting up vite ended up being really easy. Taking time reading through the info
 
 ## React Part 2: Reactivity
 
-This was a lot of fun to see it all come together. I had to keep remembering to use React state instead of just manipulating the DOM directly.
-
-Handling the toggling of the checkboxes was particularly interesting.
-
-```jsx
-<div className="input-group sound-button-container">
-  {calmSoundTypes.map((sound, index) => (
-    <div key={index} className="form-check form-switch">
-      <input
-        className="form-check-input"
-        type="checkbox"
-        value={sound}
-        id={sound}
-        onChange={() => togglePlay(sound)}
-        checked={selectedSounds.includes(sound)}
-      ></input>
-      <label className="form-check-label" htmlFor={sound}>
-        {sound}
-      </label>
-    </div>
-  ))}
-</div>
-```
+This was a tricky one to bring together fully but was a lot of fun setting up and seeing work. One main challenge was working through the local storage to make sure the tier list was saved throughout the process but it was really cool making it come together. 
