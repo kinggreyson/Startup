@@ -161,7 +161,7 @@ export function Voting() {
             placeholder="Type a message..." 
             value={newMessage}
             onChange={(e) => setNewMessage(e.target.value)}
-            onKeyPress={(e) => e.key === 'Enter' && sendMessage()}
+            onKeydown={(e) => e.key === 'Enter' && sendMessage()}
           />
           <button onClick={sendMessage}>Send</button>
         </>
