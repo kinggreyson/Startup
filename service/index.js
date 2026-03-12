@@ -28,16 +28,25 @@ app.post('/api/auth/register', async (req, res) => {
     const token = uuid.v4();
     users.push({ username, password: hashed, token });
     res.json({ username }); 
-})
+});
 
 // Login
 app.post('/api/auth/login', async (req,res) => {
     const {username, password } = req.body;
     const user = users.find(u => u.username === username);
-    if (!user || !(await bycrypt.compare(password, user.password))) {
+    if (!user || !(await bycrypt.compare(password, user.password))) { //Incorrect Login
         return res.status(401).json({msg: 'Invalid Credentials'});
     }
     user.token = uuid.v4();
     res.cookie('token', user.token, { samesite: 'strict', httpOnly: true});
     res.json({ username });
-})
+});
+
+// Logout
+app.delete('/api/auth/logout', (req, res) => {
+    const token = req.cookies.token;
+    const user = users.find(u => u.token === token);
+    if (user) user.token = null;
+    res.clearCookie('token');
+    res.status(204).end();
+});
