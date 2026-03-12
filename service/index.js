@@ -50,3 +50,12 @@ app.delete('/api/auth/logout', (req, res) => {
     res.clearCookie('token');
     res.status(204).end();
 });
+
+function requireAuth(req, res, next)
+{
+    const token = req.cookie.token;
+    const user = users.find(u => u.token === token);
+    if (!user) return res.status(401).json({ msg: 'Unauthorized' });
+    req.user = user;
+    next();
+}
