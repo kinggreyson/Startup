@@ -29,3 +29,15 @@ app.post('/api/auth/register', async (req, res) => {
     users.push({ username, password: hashed, token });
     res.json({ username }); 
 })
+
+// Login
+app.post('/api/auth/login', async (req,res) => {
+    const {username, password } = req.body;
+    const user = users.find(u => u.username === username);
+    if (!user || !(await bycrypt.compare(password, user.password))) {
+        return res.status(401).json({msg: 'Invalid Credentials'});
+    }
+    user.token = uuid.v4();
+    res.cookie('token', user.token, { samesite: 'strict', httpOnly: true});
+    res.json({ username });
+})
