@@ -51,6 +51,7 @@ app.delete('/api/auth/logout', (req, res) => {
     res.status(204).end();
 });
 
+//Security
 function requireAuth(req, res, next)
 {
     const token = req.cookie.token;
@@ -59,3 +60,10 @@ function requireAuth(req, res, next)
     req.user = user;
     next();
 }
+
+//Save Tier List
+app.post('/api/tierlists', requireAuth, (req, res) => {
+    const list = {...req.body, saveBy: req.user.username, id: uuid.v4() }; //Required username
+    tierLists.push(list);
+    res.json(list);
+});
