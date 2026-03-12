@@ -67,3 +67,9 @@ app.post('/api/tierlists', requireAuth, (req, res) => {
     tierLists.push(list);
     res.json(list);
 });
+
+//Get Saved Tier Lists
+app.get('/api/tierlists', requireAuth, (req, res) => {
+    const userLists = tierLists.filter(l => l.savedBy === req.user.username);
+    res.json(userLists);
+});
