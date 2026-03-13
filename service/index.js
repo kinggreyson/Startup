@@ -27,6 +27,7 @@ app.post('/api/auth/register', async (req, res) => {
     const hashed = await bcrypt.hash(password, 10); //Password encrypting
     const token = uuid.v4();
     users.push({ username, password: hashed, token });
+    res.cookie('token', token, { sameSite: 'strict', httpOnly: true });
     res.json({ username }); 
 });
 
@@ -34,11 +35,11 @@ app.post('/api/auth/register', async (req, res) => {
 app.post('/api/auth/login', async (req,res) => {
     const {username, password } = req.body;
     const user = users.find(u => u.username === username);
-    if (!user || !(await bycrypt.compare(password, user.password))) { //Incorrect Login
+    if (!user || !(await bcrypt.compare(password, user.password))) { //Incorrect Login
         return res.status(401).json({msg: 'Invalid Credentials'});
     }
     user.token = uuid.v4();
-    res.cookie('token', user.token, { samesite: 'strict', httpOnly: true});
+    res.cookie('token', user.token, { sameSite: 'strict', httpOnly: true});
     res.json({ username });
 });
 
@@ -54,7 +55,7 @@ app.delete('/api/auth/logout', (req, res) => {
 //Security
 function requireAuth(req, res, next)
 {
-    const token = req.cookie.token;
+    const token = req.cookies.token;
     const user = users.find(u => u.token === token);
     if (!user) return res.status(401).json({ msg: 'Unauthorized' });
     req.user = user;
@@ -63,7 +64,7 @@ function requireAuth(req, res, next)
 
 //Save Tier List
 app.post('/api/tierlists', requireAuth, (req, res) => {
-    const list = {...req.body, saveBy: req.user.username, id: uuid.v4() }; //Required username
+    const list = {...req.body, savedBy: req.user.username, id: uuid.v4() }; //Required username
     tierLists.push(list);
     res.json(list);
 });
