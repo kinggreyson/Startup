@@ -22,6 +22,7 @@ export function Results() {
       const response = await fetch('/api/tierlists', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
         body: JSON.stringify(completedList),
       });
       if (response.ok) {

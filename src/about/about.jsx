@@ -5,7 +5,7 @@ export function About() {
 
   useEffect(() => {
     //API calling random star wars quotes
-    fetch('https://api.quotable.io/random')
+    fetch('https://dummyjson.com/quotes/random')
     .then(r => r.json())
     .then(data => setQuote(`"${data.content}" - ${data.author}`))
     .catch(() => setQuote('Could not load quote.'));
@@ -18,7 +18,6 @@ export function About() {
 
       <h3>Random Quote</h3>
       <p>{quote || 'Loading quote...'}</p>
-      <p>(Quote from 3rd party API *not implemented*)</p>
 
       <h3>Example Tier list image</h3>
       <img src="image.png" width="400" alt="Tier list example" />
