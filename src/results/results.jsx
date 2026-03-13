@@ -11,31 +11,24 @@ export function Results() {
     if (completed) {
       setCompletedList(JSON.parse(completed));
     }
-
-    // Load saved tier lists (placeholder)
-    const saved = localStorage.getItem('savedTierLists');
-    if (saved) {
-      setSavedLists(JSON.parse(saved));
-    } else {
-      //ex saved listss
-      setSavedLists([
-        { title: 'Top Movies of All Time', date: '01/25/2026' },
-        { title: 'Best Video Games', date: '01/20/2026' },
-        { title: 'Favorite Foods', date: '01/15/2026' }
-      ]);
-    }
+      fetch('/api/tierlists')
+        .then(r => r.json())
+        .then(data => setSavedLists(data))
+        .catch(() => {});
   }, []);
 
-  function saveTierList() {
+  async function saveTierList() {
     if (completedList) {
-      const newList = {
-        title: completedList.title,
-        date: completedList.completedDate
-      };
-      const updated = [newList, ...savedLists];
-      setSavedLists(updated);
-      localStorage.setItem('savedTierLists', JSON.stringify(updated));
-      alert('Tier list saved to database!');
+      const response = await fetch('/api/tierlists', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(completedList),
+      });
+      if (response.ok) {
+        const saved = await response.json();
+        setSavedLists(prev => [saved, ...prev]);
+        alert('Saved Successfully');
+      }
     }
   }
 
