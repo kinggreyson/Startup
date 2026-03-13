@@ -20,6 +20,7 @@ export default function App() {
                 <NavLink to="voting">Vote</NavLink>
                 <NavLink to="results">Results</NavLink>
                 <NavLink to="about">About</NavLink>
+                <button onClick={handleLogout}>Logout</button>
                 </nav>
         </header>
 
@@ -43,4 +44,14 @@ export default function App() {
 
 function NotFound() {
   return <main className="container-fluid bg-secondary text-center">404: Return to sender. Address unknown.</main>;
+}
+
+function handleLogout() {
+  fetch('/api/auth/logout', {
+    method: 'DELETE',
+    credentials: 'include',
+  }).then(() => {
+    localStorage.removeItem('username');
+    window.location.href = '/';
+  });
 }
