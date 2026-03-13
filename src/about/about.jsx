@@ -4,15 +4,11 @@ export function About() {
   const [quote, setQuote] = useState('');
 
   useEffect(() => {
-    // Mock API call - simulates fetching from a 3rd party API
-    const quotes = [
-      'Do...or do not... there is no try',
-      'Never tell me the odds.',
-      'Youve failed, your Highness. I am a Jedi. Like my father before me'
-    ];
-    
-    const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
-    setQuote(randomQuote);
+    //API calling random star wars quotes
+    fetch('https://api.quotable.io/random')
+    .then(r => r.json())
+    .then(data => setQuote(`"${data.content}" - ${data.author}`))
+    .catch(() => setQuote('Could not load quote.'));
   }, []); // Empty dependency array means this runs once on component mount
 
   return (
