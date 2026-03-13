@@ -94,12 +94,12 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [ ] **Node.js/Express HTTP service** - I did not complete this part of the deliverable.
-- [ ] **Static middleware for frontend** - I did not complete this part of the deliverable.
-- [ ] **Calls to third party endpoints** - I did not complete this part of the deliverable.
-- [ ] **Backend service endpoints** - I did not complete this part of the deliverable.
-- [ ] **Frontend calls service endpoints** - I did not complete this part of the deliverable.
-- [ ] **Supports registration, login, logout, and restricted endpoint** - I did not complete this part of the deliverable.
+- [X] **Node.js/Express HTTP service** - Created backend service with Node.js and Express running on port 4000
+- [X] **Static middleware for frontend** - Added app.use(express.static('public')) to use frontend files from express
+- [X] **Calls to third party endpoints** - About page gets a reandom quote from the quotable.io API
+- [X] **Backend service endpoints** - Made endpoints for saving and viewing tier lists at '/api/tierlists'.
+- [X] **Frontend calls service endpoints** - Results page retrievs and saves tier lists from backend and home page calls login/register endpoints
+- [X] **Supports registration, login, logout, and restricted endpoint** - Added register, login, and logout endpoints with BCrypt password hashing and Cookie authentication. Tier list protected with an auth middleware.
 
 ## 🚀 DB deliverable
 
