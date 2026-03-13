@@ -6,10 +6,22 @@ export function Home() {
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
-  function handleLogin(event) {
+  async function handleLogin(event){
     event.preventDefault();
-    localStorage.setItem('username', username);
-    navigate('/create');
+    const response = await fetch('/api/auth/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username, password }),
+    });
+    if (response.ok) {
+      const data = await response.json();
+      localStorage.setItem('username', data.username);
+      navigate('/create');
+    }
+    else {
+      alert('Login failed, try again or register if new');
+    }
+  }
   }
 
   return (
