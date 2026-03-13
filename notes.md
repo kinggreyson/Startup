@@ -40,3 +40,6 @@ Setting up vite ended up being really easy. Taking time reading through the info
 ## React Part 2: Reactivity
 
 This was a tricky one to bring together fully but was a lot of fun setting up and seeing work. One main challenge was working through the local storage to make sure the tier list was saved throughout the process but it was really cool making it come together. 
+
+## Service
+This one was interesting as it was mostly just connecting frontend to the newly created backend. It made the application feel much more real, and that there were a lot less placeholders because of it. 
