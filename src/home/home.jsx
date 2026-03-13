@@ -22,6 +22,22 @@ export function Home() {
       alert('Login failed, try again or register if new');
     }
   }
+
+  async function handleRegister(event) {
+    event.preventDefault();
+    const response = await fetch('/api/auth/register', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username, password }),
+    });
+    if (response.ok) {
+      const data = await response.json();
+      localStorage.setItem('username', data.username);
+      navigate('/create');
+    }
+    else {
+      alert('Registration failed - Username taken')
+    }
   }
 
   return (
@@ -49,6 +65,7 @@ export function Home() {
           required 
         />
         <button type="submit">submit</button>
+        <button type="button" onClick={handleRegister}>Register</button>
       </form>
     </main>
   );
