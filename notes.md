@@ -43,3 +43,6 @@ This was a tricky one to bring together fully but was a lot of fun setting up an
 
 ## Service
 This one was interesting as it was mostly just connecting frontend to the newly created backend. It made the application feel much more real, and that there were a lot less placeholders because of it. 
+
+# Database
+This one made really good sense it feels good to have a more independent database that can handle more.
