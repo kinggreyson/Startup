@@ -30,3 +30,14 @@ async function updateUserToken(username, token) {
 async function getUserByToken(token) {
   return userCollection.findOne({ token });
 }
+
+async function saveTierList(list) {
+  await tierListCollection.insertOne(list);
+  return list;
+}
+
+async function getTierLists(username) {
+  return tierListCollection.find({ savedBy: username }).toArray();
+}
+
+module.exports = { connect, getUser, createUser, updateUserToken, getUserByToken, saveTierList, getTierLists };
