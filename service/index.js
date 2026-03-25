@@ -63,14 +63,14 @@ async function requireAuth(req, res, next) {
 }
 
 //Save Tier List
-app.post('/api/tierlists', requireAuth, (req, res) => {
-    const list = {...req.body, savedBy: req.user.username, id: uuid.v4() }; //Required username
-    tierLists.push(list);
-    res.json(list);
+app.post('/api/tierlists', requireAuth, async (req, res) => {
+  const list = { ...req.body, savedBy: req.user.username, id: uuid.v4() };
+  const saved = await db.saveTierList(list);
+  res.json(saved);
 });
 
 //Get Saved Tier Lists
-app.get('/api/tierlists', requireAuth, (req, res) => {
-    const userLists = tierLists.filter(l => l.savedBy === req.user.username);
-    res.json(userLists);
+app.get('/api/tierlists', requireAuth, async (req, res) => {
+  const lists = await db.getTierLists(req.user.username);
+  res.json(lists);
 });
