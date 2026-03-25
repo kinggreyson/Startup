@@ -7,3 +7,26 @@ const db = client.db(config.database);
 
 const userCollection = db.collection('users');
 const tierListCollection = db.collection('tierlists');
+
+async function connect() {
+  await client.connect();
+  console.log('Connected to MongoDB');
+}
+
+async function getUser(username) {
+  return userCollection.findOne({ username });
+}
+
+async function createUser(username, hashedPassword, token) {
+  const user = { username, password: hashedPassword, token };
+  await userCollection.insertOne(user);
+  return user;
+}
+
+async function updateUserToken(username, token) {
+  await userCollection.updateOne({ username }, { $set: { token } });
+}
+
+async function getUserByToken(token) {
+  return userCollection.findOne({ token });
+}
