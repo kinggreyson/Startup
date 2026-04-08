@@ -16,13 +16,12 @@ const db = require('./database.js');
 db.connect();
 
 //Websocket Prep
-app.listen(port, () => console.log(`Listening on port ${port}`));
 
 app.use(express.static('public'));
 const apiRouter = express.Router();
 app.use(`/api`, apiRouter);
-const httpService = app.listen(3000, () => {
-  console.log('Listening on port 3000');
+const httpService = app.listen(4000, () => {
+  console.log('Listening on port 4000');
   });
 peerProxy(httpService);
 //Home Page
@@ -55,11 +54,8 @@ app.post('/api/auth/login', async (req, res) => {
 
 // Logout
 app.delete('/api/auth/logout', (req, res) => {
-    const token = req.cookies.token;
-    const user = users.find(u => u.token === token);
-    if (user) user.token = null;
-    res.clearCookie('token');
-    res.status(204).end();
+  res.clearCookie('token');
+  res.status(204).end();
 });
 
 //Security
