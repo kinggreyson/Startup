@@ -46,3 +46,6 @@ This one was interesting as it was mostly just connecting frontend to the newly 
 
 # Database
 This one made really good sense it feels good to have a more independent database that can handle more.
+
+# Websocket
+This one was really challenging because it felt like I was updating so many sections of code to allow interaction especially on the voting page. This is a very social application so I think this took more work on the websocket side of things then perhaps others but it was really rewarding to see the features come together.
