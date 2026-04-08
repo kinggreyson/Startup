@@ -15,29 +15,35 @@ export function Voting() {
   const socketRef = useRef(null);
 
   // 1. Initial Load and WebSocket Setup
-  useEffect(() => {
-    const saved = localStorage.getItem('currentTierList');
-    if (saved) {
-      const data = JSON.parse(saved);
-      setTierList(data);
-      setUnranked(data.items);
+useEffect(() => {
+  const saved = localStorage.getItem('currentTierList');
+  let currentCode = null;
+  
+  if (saved) {
+    const data = JSON.parse(saved);
+    setTierList(data);
+    setUnranked(data.items);
+    currentCode = data.joinCode; // Grab the code from storage
+  }
+
+  const protocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
+  const socket = new WebSocket(`${protocol}://${window.location.host}/ws`);
+  socketRef.current = socket;
+
+  socket.onopen = () => {
+    // NEW: Tell the server who we are as soon as we connect
+    if (currentCode) {
+      socket.send(JSON.stringify({ type: 'join_request', joinCode: currentCode }));
     }
+  };
 
-    const protocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
-    const socket = new WebSocket(`${protocol}://${window.location.host}/ws`);
-    socketRef.current = socket;
+  socket.onmessage = (event) => {
+    const msg = JSON.parse(event.data);
+    handleIncomingMessage(msg);
+  };
 
-    socket.onopen = () => console.log('WebSocket connected');
-    
-    socket.onmessage = (event) => {
-      const msg = JSON.parse(event.data);
-      handleIncomingMessage(msg);
-    };
-
-    socket.onclose = () => console.log('WebSocket disconnected');
-
-    return () => socket.close();
-  }, []); // Empty dependency array keeps the connection stable
+  return () => socket.close();
+}, []);
 
 function handleIncomingMessage(msg) {
   if (msg.type === 'vote') {
