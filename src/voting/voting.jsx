@@ -20,6 +20,7 @@ export function Voting() {
   const [newMessage, setNewMessage] = useState('');
   const [showChat, setShowChat] = useState(true);
   const navigate = useNavigate();
+  const socketRef = React.useRef(null);
 
   // load tier list from create/local storage
   useEffect(() => {
@@ -51,42 +52,58 @@ export function Voting() {
   }, [unranked, tiers, tierList, navigate]);
 
     //Show fake activity *PLACEHOLDER*
-  useEffect(() => {
-    const interval = setInterval(() => {
-      const users = ['User1', 'User2', 'User3'];
-      const tierNames = ['S', 'A', 'B', 'C', 'D'];
-      const randomUser = users[Math.floor(Math.random() * users.length)]; //Random user
-      const randomTier = tierNames[Math.floor(Math.random() * tierNames.length)]; //Random tier
-      
-      const newActivity = `${randomUser} voted an item to ${randomTier} tier`;
-      setActivity(prev => [newActivity, ...prev].slice(0, 5)); // Keep last 5
-    }, 5000);
+useEffect(() => {
+  const protocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
+  const socket = new WebSocket(`${protocol}://${window.location.host}/ws`);
 
-    return () => clearInterval(interval);
-  }, []);
+  socket.onopen = () => console.log('WebSocket connected');
 
-  function rankItem(item, tier) {
-    //Removes from list
-    setUnranked(prev => prev.filter(i => i !== item));
-    
-    // Adds to tier
-    setTiers(prev => ({
-      ...prev,
-      [tier]: [...prev[tier], item]
-    }));
-
-    //Add vote to activity
-    const username = localStorage.getItem('username') || 'Newplayer';
-    setActivity(prev => [`${username} voted ${item} to ${tier} tier`, ...prev].slice(0, 5));
-  }
-
-  function sendMessage() {
-    if (newMessage.trim()) {
-      const username = localStorage.getItem('username') || 'Newplayer';
-      setChatMessages(prev => [...prev, { user: username, message: newMessage }]);
-      setNewMessage('');
+  socket.onmessage = (event) => {
+    const msg = JSON.parse(event.data);
+    if (msg.type === 'vote') {
+      setActivity(prev => [`${msg.user} voted ${msg.item} to ${msg.tier} tier`, ...prev].slice(0, 5));
+    } else if (msg.type === 'chat') {
+      setChatMessages(prev => [...prev, { user: msg.user, message: msg.message }]);
     }
+  };
+
+  socket.onclose = () => console.log('WebSocket disconnected');
+
+  return () => socket.close();
+}, []);
+
+function rankItem(item, tier) {
+  setUnranked(prev => prev.filter(i => i !== item));
+  setTiers(prev => ({ ...prev, [tier]: [...prev[tier], item] }));
+
+  const username = localStorage.getItem('username') || 'Newplayer';
+  const msg = { type: 'vote', user: username, item, tier };
+
+  // Show locally
+  setActivity(prev => [`${username} voted ${item} to ${tier} tier`, ...prev].slice(0, 5));
+
+  // Broadcast to others
+  if (socketRef.current?.readyState === WebSocket.OPEN) {
+    socketRef.current.send(JSON.stringify(msg));
   }
+}
+
+function sendMessage() {
+  if (newMessage.trim()) {
+    const username = localStorage.getItem('username') || 'Newplayer';
+    const msg = { type: 'chat', user: username, message: newMessage };
+
+    // Show locally
+    setChatMessages(prev => [...prev, { user: username, message: newMessage }]);
+
+    // Broadcast to others
+    if (socketRef.current?.readyState === WebSocket.OPEN) {
+      socketRef.current.send(JSON.stringify(msg));
+    }
+
+    setNewMessage('');
+  }
+}
 
   if (!tierList) {
     return (
