@@ -7,44 +7,32 @@ const app = express();
 const port = process.argv.length > 2 ? process.argv[2] : 4000;
 const { peerProxy } = require('./peerProxy.js');
 
+const db = require('./database.js');
+db.connect();
+
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.static('public'));
 
-
-const db = require('./database.js');
-db.connect();
-
-//Websocket Prep
-
-app.use(express.static('public'));
 const apiRouter = express.Router();
 app.use(`/api`, apiRouter);
-const httpService = app.listen(4000, () => {
-  console.log('Listening on port 4000');
-  });
-peerProxy(httpService);
-//Home Page
 
-//Registering
-app.post('/api/auth/register', async (req, res) => {
+// Auth Routes
+apiRouter.post('/auth/register', async (req, res) => {
   const { username, password } = req.body;
-  if (await db.getUser(username)) {
-    return res.status(409).json({ msg: 'Username already taken' });
-  }
+  if (await db.getUser(username)) return res.status(409).json({ msg: 'User taken' });
   const hashed = await bcrypt.hash(password, 10);
   const token = uuid.v4();
-  const user = await db.createUser(username, hashed, token);
+  await db.createUser(username, hashed, token);
   res.cookie('token', token, { sameSite: 'strict', httpOnly: true });
   res.json({ username });
 });
 
-// Login
-app.post('/api/auth/login', async (req, res) => {
+apiRouter.post('/auth/login', async (req, res) => {
   const { username, password } = req.body;
   const user = await db.getUser(username);
   if (!user || !(await bcrypt.compare(password, user.password))) {
-    return res.status(401).json({ msg: 'Invalid Credentials' });
+    return res.status(401).json({ msg: 'Unauthorized' });
   }
   const token = uuid.v4();
   await db.updateUserToken(username, token);
@@ -52,13 +40,12 @@ app.post('/api/auth/login', async (req, res) => {
   res.json({ username });
 });
 
-// Logout
-app.delete('/api/auth/logout', (req, res) => {
+apiRouter.delete('/auth/logout', (req, res) => {
   res.clearCookie('token');
   res.status(204).end();
 });
 
-//Security
+// Middleware
 async function requireAuth(req, res, next) {
   const token = req.cookies.token;
   const user = await db.getUserByToken(token);
@@ -67,16 +54,25 @@ async function requireAuth(req, res, next) {
   next();
 }
 
-//Save Tier List
-app.post('/api/tierlists', requireAuth, async (req, res) => {
+// Data Routes
+apiRouter.post('/tierlists', requireAuth, async (req, res) => {
   const list = { ...req.body, savedBy: req.user.username, id: uuid.v4() };
   const saved = await db.saveTierList(list);
   res.json(saved);
 });
 
-//Get Saved Tier Lists
-app.get('/api/tierlists', requireAuth, async (req, res) => {
+apiRouter.get('/tierlists', requireAuth, async (req, res) => {
   const lists = await db.getTierLists(req.user.username);
   res.json(lists);
 });
 
+// SPA Support: Serve index.html for all other routes
+app.use((_req, res) => {
+  res.sendFile('index.html', { root: 'public' });
+});
+
+const httpService = app.listen(port, () => {
+  console.log(`Listening on port ${port}`);
+});
+
+peerProxy(httpService);
