@@ -39,27 +39,32 @@ export function Voting() {
     return () => socket.close();
   }, []); // Empty dependency array keeps the connection stable
 
-  // 2. Logic to handle messages from OTHER users
-  function handleIncomingMessage(msg) {
-    if (msg.type === 'vote') {
-      setActivity(prev => [`${msg.user} voted ${msg.item} to ${msg.tier} tier`, ...prev].slice(0, 5));
-    } else if (msg.type === 'vote_result') {
-      setUnranked(prev => prev.filter(i => i !== msg.item));
-      setTiers(prev => ({ ...prev, [msg.tier]: [...prev[msg.tier], msg.item] }));
-      setActivity(prev => [`✅ ${msg.item} placed in ${msg.tier} tier!`, ...prev].slice(0, 5));
-    } else if (msg.type === 'chat') {
-      setChatMessages(prev => [...prev, { user: msg.user, message: msg.message }]);
-    } else if (msg.type === 'user_count') {
-      setUserCount(msg.count);
-    } else if (msg.type === 'revote') {
-      setVotedItems(prev => {
-        const next = new Set(prev);
-        next.delete(msg.item);
-        return next;
-      });
-      setActivity(prev => [`🔁 Tie on ${msg.item}! Revote!`, ...prev].slice(0, 5));
-    }
+function handleIncomingMessage(msg) {
+  if (msg.type === 'vote') {
+    // This shows "User X voted" for everyone ELSE
+    setActivity(prev => [`${msg.user} voted ${msg.item}`, ...prev].slice(0, 5));
+  } else if (msg.type === 'vote_result') {
+    // This moves the item to the tier once the server decides the winner
+    setUnranked(prev => prev.filter(i => i !== msg.item));
+    setTiers(prev => ({ ...prev, [msg.tier]: [...prev[msg.tier], msg.item] }));
+    setVotedItems(prev => {
+      const next = new Set(prev);
+      next.delete(msg.item); 
+      return next;
+    });
+    setActivity(prev => [`✅ ${msg.item} placed in ${msg.tier}!`, ...prev].slice(0, 5));
+  } else if (msg.type === 'user_count') {
+    // CRITICAL: This updates the number on your screen
+    setUserCount(msg.count); 
+  } else if (msg.type === 'revote') {
+    setVotedItems(prev => {
+      const next = new Set(prev);
+      next.delete(msg.item);
+      return next;
+    });
+    setActivity(prev => [`🔁 Tie! Revote on ${msg.item}`, ...prev].slice(0, 5));
   }
+}
 
   // 3. Auto-navigate when finished
   useEffect(() => {

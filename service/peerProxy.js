@@ -66,22 +66,20 @@ function peerProxy(httpService) {
 
     // --- Helper Functions ---
 
-    function handleVote(msg, sender) {
-      const code = sender.joinCode;
-      if (!sessions[code]) return;
-      
-      if (!sessions[code].votes[msg.item]) sessions[code].votes[msg.item] = {};
-      sessions[code].votes[msg.item][msg.user] = msg.tier;
+function handleVote(msg, sender) {
+  const code = sender.joinCode;
+  if (!sessions[code]) return;
+  if (!sessions[code].votes[msg.item]) sessions[code].votes[msg.item] = {};
+  sessions[code].votes[msg.item][msg.user] = msg.tier;
+  broadcastToRoom(msg, sender.id, code);
+  const usersInRoom = connections.filter(c => c.joinCode === code);
+  const votesReceived = Object.keys(sessions[code].votes[msg.item]).length;
+  console.log(`Room ${code}: ${votesReceived}/${usersInRoom.length} votes for ${msg.item}`);
 
-      broadcastToRoom(msg, null, code);
-
-      const usersInRoom = connections.filter(c => c.joinCode === code);
-      const votesReceived = Object.keys(sessions[code].votes[msg.item]);
-
-      if (votesReceived.length >= usersInRoom.length) {
-        tally(code, msg.item);
-      }
-    }
+  if (votesReceived >= usersInRoom.length) {
+    tally(code, msg.item);
+  }
+}
 
     function tally(code, item) {
       const votes = Object.values(sessions[code].votes[item]);
