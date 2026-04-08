@@ -14,7 +14,7 @@ export function Voting() {
   const navigate = useNavigate();
   const socketRef = useRef(null);
 
-  // 1. Initial Load and WebSocket Setup
+ 
 useEffect(() => {
   const saved = localStorage.getItem('currentTierList');
   let currentCode = null;
@@ -23,7 +23,7 @@ useEffect(() => {
     const data = JSON.parse(saved);
     setTierList(data);
     setUnranked(data.items);
-    currentCode = data.joinCode; // Grab the code from storage
+    currentCode = data.joinCode; 
   }
 
   const protocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
@@ -31,7 +31,7 @@ useEffect(() => {
   socketRef.current = socket;
 
   socket.onopen = () => {
-    // NEW: Tell the server who we are as soon as we connect
+   
     if (currentCode) {
       socket.send(JSON.stringify({ type: 'join_request', joinCode: currentCode }));
     }
@@ -47,10 +47,10 @@ useEffect(() => {
 
 function handleIncomingMessage(msg) {
   if (msg.type === 'vote') {
-    // This shows "User X voted" for everyone ELSE
+    //Shows vote
     setActivity(prev => [`${msg.user} voted ${msg.item}`, ...prev].slice(0, 5));
   } else if (msg.type === 'vote_result') {
-    // This moves the item to the tier once the server decides the winner
+    
     setUnranked(prev => prev.filter(i => i !== msg.item));
     setTiers(prev => ({ ...prev, [msg.tier]: [...prev[msg.tier], msg.item] }));
     setVotedItems(prev => {
@@ -58,9 +58,9 @@ function handleIncomingMessage(msg) {
       next.delete(msg.item); 
       return next;
     });
-    setActivity(prev => [`✅ ${msg.item} placed in ${msg.tier}!`, ...prev].slice(0, 5));
+    setActivity(prev => [` ${msg.item} placed in ${msg.tier}!`, ...prev].slice(0, 5));
   } else if (msg.type === 'user_count') {
-    // CRITICAL: This updates the number on your screen
+    
     setUserCount(msg.count); 
   } else if (msg.type === 'revote') {
     setVotedItems(prev => {
@@ -68,11 +68,15 @@ function handleIncomingMessage(msg) {
       next.delete(msg.item);
       return next;
     });
-    setActivity(prev => [`🔁 Tie! Revote on ${msg.item}`, ...prev].slice(0, 5));
+    setActivity(prev => [` Tie! Revote on ${msg.item}`, ...prev].slice(0, 5));
   }
+  else if (msg.type === 'chat') {
+   
+    setChatMessages(prev => [...prev, { user: msg.user, message: msg.message }]);
+}
 }
 
-  // 3. Auto-navigate when finished
+
   useEffect(() => {
     if (tierList && unranked.length === 0 && 
        (tiers.S.length > 0 || tiers.A.length > 0 || tiers.B.length > 0 || tiers.C.length > 0 || tiers.D.length > 0)) {
@@ -87,7 +91,7 @@ function handleIncomingMessage(msg) {
     }
   }, [unranked, tiers, tierList, navigate, userCount]);
 
-  // 4. Action: Voting on an item
+ 
   function rankItem(item, tier) {
     const username = localStorage.getItem('username') || 'Newplayer';
     if (votedItems.has(item)) return;
@@ -102,25 +106,51 @@ function handleIncomingMessage(msg) {
     }
   }
 
-  // 5. Action: Sending a chat
-  function sendMessage() {
-    if (newMessage.trim()) {
-      const username = localStorage.getItem('username') || 'Newplayer';
-      const msg = { 
-        type: 'chat', 
-        user: username, 
-        message: newMessage, 
-        joinCode: tierList?.joinCode 
-      };
-      
-      setChatMessages(prev => [...prev, { user: username, message: newMessage }]);
-      
-      if (socketRef.current?.readyState === WebSocket.OPEN) {
-        socketRef.current.send(JSON.stringify(msg));
-      }
-      setNewMessage('');
-    }
+ 
+const sendMessage = () => {
+
+  const messageToSend = newMessage.trim();
+
+
+  if (!messageToSend) {
+  
+    return;
   }
+
+ 
+  const code = tierList?.joinCode || JSON.parse(localStorage.getItem('currentTierList'))?.joinCode;
+  
+
+  if (!code) {
+    alert("Error: You aren't in an active session. Please rejoin.");
+    return;
+  }
+
+ 
+  const username = localStorage.getItem('username') || 'Anonymous';
+  const msg = { 
+    type: 'chat', 
+    user: username, 
+    message: messageToSend, 
+    joinCode: code 
+  };
+
+  
+  if (socketRef.current?.readyState === WebSocket.OPEN) {
+  
+    socketRef.current.send(JSON.stringify(msg));
+    
+    
+    setChatMessages(prev => [...prev, { user: username, message: messageToSend }]);
+    
+    
+    setNewMessage("");
+  } else {
+
+    alert("Connection lost. Please refresh the page.");
+  }
+};
+
 
   if (!tierList) return <main><h2>No active tier list</h2><p>Please create one first!</p></main>;
 

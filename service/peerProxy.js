@@ -13,7 +13,7 @@ function peerProxy(httpService) {
   });
 
   let connections = [];
-  let sessions = {}; // Stores { [code]: { tierList: {...}, votes: {...} } }
+  let sessions = {}; 
 
   wss.on('connection', (ws) => {
     const connection = { id: uuid.v4(), ws: ws, joinCode: null };
@@ -21,8 +21,8 @@ function peerProxy(httpService) {
 
     ws.on('message', function message(data) {
       const msg = JSON.parse(data);
+      const targetCode = msg.joinCode || connection.joinCode;
 
-      // 1. ACTION: Host creates a session
       if (msg.type === 'session_created') {
         connection.joinCode = msg.joinCode;
         sessions[msg.joinCode] = { 
@@ -32,12 +32,12 @@ function peerProxy(httpService) {
         updateUserCount(msg.joinCode);
       }
 
-      // 2. ACTION: Friend tries to join
+     
       if (msg.type === 'join_request') {
         const session = sessions[msg.joinCode];
         if (session) {
           connection.joinCode = msg.joinCode;
-          // Send the tier list data BACK to the person who joined
+          
           ws.send(JSON.stringify({
             type: 'session_created',
             joinCode: msg.joinCode,
@@ -47,15 +47,15 @@ function peerProxy(httpService) {
         }
       }
 
-      // 3. ACTION: Voting Logic (Restricted to Room)
+
       if (msg.type === 'vote' && connection.joinCode) {
         handleVote(msg, connection);
       } 
 
-      // 4. ACTION: Chat (Restricted to Room)
-      if (msg.type === 'chat' && connection.joinCode) {
-        broadcastToRoom(msg, connection.id, connection.joinCode);
-      }
+      if (msg.type === 'chat' && targetCode) {
+  
+        broadcastToRoom(msg, connection.id, targetCode);
+  }
     });
 
     ws.on('close', () => {
@@ -64,7 +64,7 @@ function peerProxy(httpService) {
       if (oldCode) updateUserCount(oldCode);
     });
 
-    // --- Helper Functions ---
+
 
 function handleVote(msg, sender) {
   const code = sender.joinCode;
@@ -74,7 +74,7 @@ function handleVote(msg, sender) {
   broadcastToRoom(msg, sender.id, code);
   const usersInRoom = connections.filter(c => c.joinCode === code);
   const votesReceived = Object.keys(sessions[code].votes[msg.item]).length;
-  console.log(`Room ${code}: ${votesReceived}/${usersInRoom.length} votes for ${msg.item}`);
+
 
   if (votesReceived >= usersInRoom.length) {
     tally(code, msg.item);
@@ -94,14 +94,24 @@ function handleVote(msg, sender) {
       }
     }
 
-    function broadcastToRoom(msg, senderId, joinCode) {
-      connections.forEach((c) => {
-        // ONLY send to people with the SAME joinCode
-        if (c.joinCode === joinCode && c.id !== senderId) {
-          c.ws.send(JSON.stringify(msg));
-        }
-      });
+function broadcastToRoom(msg, senderId, joinCode) {
+ 
+  const targetCode = joinCode ? joinCode.toString().toUpperCase().trim() : null;
+
+
+
+  connections.forEach((c) => {
+    const connectionCode = c.joinCode ? c.joinCode.toString().toUpperCase().trim() : null;
+
+   
+    if (connectionCode === targetCode && c.id !== senderId) {
+      if (c.ws.readyState === 1) { //1 websocket open
+        c.ws.send(JSON.stringify(msg));
+
+      }
     }
+  });
+}
 
     function updateUserCount(joinCode) {
       const count = connections.filter(c => c.joinCode === joinCode).length;
