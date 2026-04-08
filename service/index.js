@@ -5,6 +5,7 @@ const uuid = require('uuid');
 
 const app = express();
 const port = process.argv.length > 2 ? process.argv[2] : 4000;
+const { peerProxy } = require('./peerProxy.js');
 
 app.use(express.json());
 app.use(cookieParser());
@@ -14,8 +15,16 @@ app.use(express.static('public'));
 const db = require('./database.js');
 db.connect();
 
+//Websocket Prep
 app.listen(port, () => console.log(`Listening on port ${port}`));
 
+app.use(express.static('public'));
+const apiRouter = express.Router();
+app.use(`/api`, apiRouter);
+const httpService = app.listen(3000, () => {
+  console.log('Listening on port 3000');
+  });
+peerProxy(httpService);
 //Home Page
 
 //Registering
@@ -74,3 +83,4 @@ app.get('/api/tierlists', requireAuth, async (req, res) => {
   const lists = await db.getTierLists(req.user.username);
   res.json(lists);
 });
+
