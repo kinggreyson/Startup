@@ -112,8 +112,8 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [ ] **Backend listens for WebSocket connection** - I did not complete this part of the deliverable.
-- [ ] **Frontend makes WebSocket connection** - I did not complete this part of the deliverable.
-- [ ] **Data sent over WebSocket connection** - I did not complete this part of the deliverable.
-- [ ] **WebSocket data displayed** - I did not complete this part of the deliverable.
-- [ ] **Application is fully functional** - I did not complete this part of the deliverable.
+- [X] **Backend listens for WebSocket connection** - Implemented peerProxy.js with ws library attaching to HTTP server, handling protocol upgrades, and maintaining every connection
+- [X] **Frontend makes WebSocket connection** - Integrated a useEffect hook in the Voting.jsx component that establishes a connection to the server's /ws endpoint with constant socket connection
+- [X] **Data sent over WebSocket connection** - I Created a custom messaging protocol to send chat messages, real-time votes, and room join requests. Uses the join code to manage correct session
+- [X] **WebSocket data displayed** - Implemented handleIncomingMessage function that updates React state for the chat window, the live activity, the participants, and the final tier list placements.
+- [X] **Application is fully functional** - The application now supports multiple users with the ability to interact and rank things along with the ability to save their rankings.
